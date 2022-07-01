@@ -9,6 +9,7 @@ import { EtherscanProvider } from "./etherscan-provider";
 import { FallbackProvider, FallbackProviderConfig } from "./fallback-provider";
 import { IpcProvider } from "./ipc-provider";
 import { InfuraProvider, InfuraWebSocketProvider } from "./infura-provider";
+import { MassbitProvider, MassbitWebSocketProvider } from "./massbit-provider";
 import { JsonRpcProvider, JsonRpcSigner } from "./json-rpc-provider";
 import { JsonRpcBatchProvider } from "./json-rpc-batch-provider";
 import { NodesmithProvider } from "./nodesmith-provider";
@@ -19,5 +20,5 @@ import { WebSocketProvider } from "./websocket-provider";
 import { ExternalProvider, JsonRpcFetchFunc } from "./web3-provider";
 import { CommunityResourcable, Formatter, isCommunityResourcable, isCommunityResource, showThrottleMessage } from "./formatter";
 declare function getDefaultProvider(network?: Networkish, options?: any): BaseProvider;
-export { Provider, BaseProvider, Resolver, UrlJsonRpcProvider, FallbackProvider, AlchemyProvider, AlchemyWebSocketProvider, AnkrProvider, CloudflareProvider, EtherscanProvider, InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, JsonRpcBatchProvider, NodesmithProvider, PocketProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider, IpcProvider, JsonRpcSigner, getDefaultProvider, getNetwork, isCommunityResource, isCommunityResourcable, showThrottleMessage, Formatter, Block, BlockTag, EventType, FeeData, Filter, Log, Listener, TransactionReceipt, TransactionRequest, TransactionResponse, ExternalProvider, JsonRpcFetchFunc, FallbackProviderConfig, Network, Networkish, EnsProvider, EnsResolver, CommunityResourcable };
+export { Provider, BaseProvider, Resolver, UrlJsonRpcProvider, FallbackProvider, AlchemyProvider, AlchemyWebSocketProvider, AnkrProvider, CloudflareProvider, EtherscanProvider, InfuraProvider, MassbitProvider, InfuraWebSocketProvider, MassbitWebSocketProvider, JsonRpcProvider, JsonRpcBatchProvider, NodesmithProvider, PocketProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider, IpcProvider, JsonRpcSigner, getDefaultProvider, getNetwork, isCommunityResource, isCommunityResourcable, showThrottleMessage, Formatter, Block, BlockTag, EventType, FeeData, Filter, Log, Listener, TransactionReceipt, TransactionRequest, TransactionResponse, ExternalProvider, JsonRpcFetchFunc, FallbackProviderConfig, Network, Networkish, EnsProvider, EnsResolver, CommunityResourcable };
 //# sourceMappingURL=index.d.ts.map

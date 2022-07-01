@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Formatter = exports.showThrottleMessage = exports.isCommunityResourcable = exports.isCommunityResource = exports.getNetwork = exports.getDefaultProvider = exports.JsonRpcSigner = exports.IpcProvider = exports.WebSocketProvider = exports.Web3Provider = exports.StaticJsonRpcProvider = exports.PocketProvider = exports.NodesmithProvider = exports.JsonRpcBatchProvider = exports.JsonRpcProvider = exports.InfuraWebSocketProvider = exports.InfuraProvider = exports.EtherscanProvider = exports.CloudflareProvider = exports.AnkrProvider = exports.AlchemyWebSocketProvider = exports.AlchemyProvider = exports.FallbackProvider = exports.UrlJsonRpcProvider = exports.Resolver = exports.BaseProvider = exports.Provider = void 0;
+exports.Formatter = exports.showThrottleMessage = exports.isCommunityResourcable = exports.isCommunityResource = exports.getNetwork = exports.getDefaultProvider = exports.JsonRpcSigner = exports.IpcProvider = exports.WebSocketProvider = exports.Web3Provider = exports.StaticJsonRpcProvider = exports.PocketProvider = exports.NodesmithProvider = exports.JsonRpcBatchProvider = exports.JsonRpcProvider = exports.MassbitWebSocketProvider = exports.InfuraWebSocketProvider = exports.MassbitProvider = exports.InfuraProvider = exports.EtherscanProvider = exports.CloudflareProvider = exports.AnkrProvider = exports.AlchemyWebSocketProvider = exports.AlchemyProvider = exports.FallbackProvider = exports.UrlJsonRpcProvider = exports.Resolver = exports.BaseProvider = exports.Provider = void 0;
 var abstract_provider_1 = require("@ethersproject/abstract-provider");
 Object.defineProperty(exports, "Provider", { enumerable: true, get: function () { return abstract_provider_1.Provider; } });
 var networks_1 = require("@ethersproject/networks");
@@ -24,6 +24,9 @@ Object.defineProperty(exports, "IpcProvider", { enumerable: true, get: function 
 var infura_provider_1 = require("./infura-provider");
 Object.defineProperty(exports, "InfuraProvider", { enumerable: true, get: function () { return infura_provider_1.InfuraProvider; } });
 Object.defineProperty(exports, "InfuraWebSocketProvider", { enumerable: true, get: function () { return infura_provider_1.InfuraWebSocketProvider; } });
+var massbit_provider_1 = require("./massbit-provider");
+Object.defineProperty(exports, "MassbitProvider", { enumerable: true, get: function () { return massbit_provider_1.MassbitProvider; } });
+Object.defineProperty(exports, "MassbitWebSocketProvider", { enumerable: true, get: function () { return massbit_provider_1.MassbitWebSocketProvider; } });
 var json_rpc_provider_1 = require("./json-rpc-provider");
 Object.defineProperty(exports, "JsonRpcProvider", { enumerable: true, get: function () { return json_rpc_provider_1.JsonRpcProvider; } });
 Object.defineProperty(exports, "JsonRpcSigner", { enumerable: true, get: function () { return json_rpc_provider_1.JsonRpcSigner; } });
@@ -86,6 +89,7 @@ function getDefaultProvider(network, options) {
         CloudflareProvider: cloudflare_provider_1.CloudflareProvider,
         EtherscanProvider: etherscan_provider_1.EtherscanProvider,
         InfuraProvider: infura_provider_1.InfuraProvider,
+        MassbitProvider: massbit_provider_1.MassbitProvider,
         JsonRpcProvider: json_rpc_provider_1.JsonRpcProvider,
         NodesmithProvider: nodesmith_provider_1.NodesmithProvider,
         PocketProvider: pocket_provider_1.PocketProvider,

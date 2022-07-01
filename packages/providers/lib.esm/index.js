@@ -9,6 +9,7 @@ import { EtherscanProvider } from "./etherscan-provider";
 import { FallbackProvider } from "./fallback-provider";
 import { IpcProvider } from "./ipc-provider";
 import { InfuraProvider, InfuraWebSocketProvider } from "./infura-provider";
+import { MassbitProvider, MassbitWebSocketProvider } from "./massbit-provider";
 import { JsonRpcProvider, JsonRpcSigner } from "./json-rpc-provider";
 import { JsonRpcBatchProvider } from "./json-rpc-batch-provider";
 import { NodesmithProvider } from "./nodesmith-provider";
@@ -58,6 +59,7 @@ function getDefaultProvider(network, options) {
         CloudflareProvider,
         EtherscanProvider,
         InfuraProvider,
+        MassbitProvider,
         JsonRpcProvider,
         NodesmithProvider,
         PocketProvider,
@@ -72,7 +74,7 @@ export {
 Provider, BaseProvider, Resolver, UrlJsonRpcProvider, 
 ///////////////////////
 // Concrete Providers
-FallbackProvider, AlchemyProvider, AlchemyWebSocketProvider, AnkrProvider, CloudflareProvider, EtherscanProvider, InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, JsonRpcBatchProvider, NodesmithProvider, PocketProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider, IpcProvider, 
+FallbackProvider, AlchemyProvider, AlchemyWebSocketProvider, AnkrProvider, CloudflareProvider, EtherscanProvider, InfuraProvider, MassbitProvider, InfuraWebSocketProvider, MassbitWebSocketProvider, JsonRpcProvider, JsonRpcBatchProvider, NodesmithProvider, PocketProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider, IpcProvider, 
 ///////////////////////
 // Signer
 JsonRpcSigner, 

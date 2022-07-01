@@ -30030,6 +30030,158 @@
 
 	var infuraProvider$1 = /*@__PURE__*/getDefaultExportFromCjs(infuraProvider);
 
+	var massbitProvider = createCommonjsModule(function (module, exports) {
+	"use strict";
+	var __extends = (commonjsGlobal && commonjsGlobal.__extends) || (function () {
+	    var extendStatics = function (d, b) {
+	        extendStatics = Object.setPrototypeOf ||
+	            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+	        return extendStatics(d, b);
+	    };
+	    return function (d, b) {
+	        if (typeof b !== "function" && b !== null)
+	            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.MassbitProvider = exports.MassbitWebSocketProvider = void 0;
+
+
+
+
+
+	var logger = new lib.Logger(_version$I.version);
+
+	var defaultProjectId = "e6944c6e-e83f-4b0f-9353-e18e6d630bed";
+	var MassbitWebSocketProvider = /** @class */ (function (_super) {
+	    __extends(MassbitWebSocketProvider, _super);
+	    function MassbitWebSocketProvider(network, apiKey) {
+	        var _this = this;
+	        var provider = new MassbitProvider(network, apiKey);
+	        var connection = provider.connection;
+	        if (connection.password) {
+	            logger.throwError("INFURA WebSocket project secrets unsupported", lib.Logger.errors.UNSUPPORTED_OPERATION, {
+	                operation: "InfuraProvider.getWebSocketProvider()"
+	            });
+	        }
+	        var url = connection.url.replace(/^http/i, "ws").replace("/v3/", "/ws/v3/");
+	        _this = _super.call(this, url, network) || this;
+	        (0, lib$3.defineReadOnly)(_this, "apiKey", provider.projectId);
+	        (0, lib$3.defineReadOnly)(_this, "projectId", provider.projectId);
+	        (0, lib$3.defineReadOnly)(_this, "projectSecret", provider.projectSecret);
+	        return _this;
+	    }
+	    MassbitWebSocketProvider.prototype.isCommunityResource = function () {
+	        return (this.projectId === defaultProjectId);
+	    };
+	    return MassbitWebSocketProvider;
+	}(websocketProvider.WebSocketProvider));
+	exports.MassbitWebSocketProvider = MassbitWebSocketProvider;
+	var MassbitProvider = /** @class */ (function (_super) {
+	    __extends(MassbitProvider, _super);
+	    function MassbitProvider() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    MassbitProvider.getWebSocketProvider = function (network, apiKey) {
+	        return new MassbitWebSocketProvider(network, apiKey);
+	    };
+	    MassbitProvider.getApiKey = function (apiKey) {
+	        var apiKeyObj = {
+	            apiKey: defaultProjectId,
+	            projectId: defaultProjectId,
+	            projectSecret: null
+	        };
+	        if (apiKey == null) {
+	            return apiKeyObj;
+	        }
+	        if (typeof (apiKey) === "string") {
+	            apiKeyObj.projectId = apiKey;
+	        }
+	        else if (apiKey.projectSecret != null) {
+	            logger.assertArgument((typeof (apiKey.projectId) === "string"), "projectSecret requires a projectId", "projectId", apiKey.projectId);
+	            logger.assertArgument((typeof (apiKey.projectSecret) === "string"), "invalid projectSecret", "projectSecret", "[REDACTED]");
+	            apiKeyObj.projectId = apiKey.projectId;
+	            apiKeyObj.projectSecret = apiKey.projectSecret;
+	        }
+	        else if (apiKey.projectId) {
+	            apiKeyObj.projectId = apiKey.projectId;
+	        }
+	        apiKeyObj.apiKey = apiKeyObj.projectId;
+	        return apiKeyObj;
+	    };
+	    MassbitProvider.getUrl = function (network, apiKey) {
+	        var host = null;
+	        switch (network ? network.name : "unknown") {
+	            case "homestead":
+	                host = "mainnet.infura.io";
+	                break;
+	            case "ropsten":
+	                host = "ropsten.infura.io";
+	                break;
+	            case "rinkeby":
+	                host = "rinkeby.infura.io";
+	                break;
+	            case "kovan":
+	                host = "kovan.infura.io";
+	                break;
+	            case "goerli":
+	                host = "goerli.infura.io";
+	                break;
+	            case "matic":
+	                host = "polygon-mainnet.infura.io";
+	                break;
+	            case "maticmum":
+	                host = "polygon-mumbai.infura.io";
+	                break;
+	            case "optimism":
+	                host = "optimism-mainnet.infura.io";
+	                break;
+	            case "optimism-kovan":
+	                host = "optimism-kovan.infura.io";
+	                break;
+	            case "arbitrum":
+	                host = "arbitrum-mainnet.infura.io";
+	                break;
+	            case "arbitrum-rinkeby":
+	                host = "arbitrum-rinkeby.infura.io";
+	                break;
+	            default:
+	                logger.throwError("unsupported network", lib.Logger.errors.INVALID_ARGUMENT, {
+	                    argument: "network",
+	                    value: network
+	                });
+	        }
+	        var connection = {
+	            allowGzip: true,
+	            url: ("https:/" + "/" + host + "/v3/" + apiKey.projectId),
+	            throttleCallback: function (attempt, url) {
+	                if (apiKey.projectId === defaultProjectId) {
+	                    (0, formatter.showThrottleMessage)();
+	                }
+	                return Promise.resolve(true);
+	            }
+	        };
+	        if (apiKey.projectSecret != null) {
+	            connection.user = "";
+	            connection.password = apiKey.projectSecret;
+	        }
+	        return connection;
+	    };
+	    MassbitProvider.prototype.isCommunityResource = function () {
+	        return (this.projectId === defaultProjectId);
+	    };
+	    return MassbitProvider;
+	}(urlJsonRpcProvider.UrlJsonRpcProvider));
+	exports.MassbitProvider = MassbitProvider;
+
+	});
+
+	var massbitProvider$1 = /*@__PURE__*/getDefaultExportFromCjs(massbitProvider);
+
 	var jsonRpcBatchProvider = createCommonjsModule(function (module, exports) {
 	"use strict";
 	var __extends = (commonjsGlobal && commonjsGlobal.__extends) || (function () {
@@ -30508,7 +30660,7 @@
 	var lib$r = createCommonjsModule(function (module, exports) {
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.Formatter = exports.showThrottleMessage = exports.isCommunityResourcable = exports.isCommunityResource = exports.getNetwork = exports.getDefaultProvider = exports.JsonRpcSigner = exports.IpcProvider = exports.WebSocketProvider = exports.Web3Provider = exports.StaticJsonRpcProvider = exports.PocketProvider = exports.NodesmithProvider = exports.JsonRpcBatchProvider = exports.JsonRpcProvider = exports.InfuraWebSocketProvider = exports.InfuraProvider = exports.EtherscanProvider = exports.CloudflareProvider = exports.AnkrProvider = exports.AlchemyWebSocketProvider = exports.AlchemyProvider = exports.FallbackProvider = exports.UrlJsonRpcProvider = exports.Resolver = exports.BaseProvider = exports.Provider = void 0;
+	exports.Formatter = exports.showThrottleMessage = exports.isCommunityResourcable = exports.isCommunityResource = exports.getNetwork = exports.getDefaultProvider = exports.JsonRpcSigner = exports.IpcProvider = exports.WebSocketProvider = exports.Web3Provider = exports.StaticJsonRpcProvider = exports.PocketProvider = exports.NodesmithProvider = exports.JsonRpcBatchProvider = exports.JsonRpcProvider = exports.MassbitWebSocketProvider = exports.InfuraWebSocketProvider = exports.MassbitProvider = exports.InfuraProvider = exports.EtherscanProvider = exports.CloudflareProvider = exports.AnkrProvider = exports.AlchemyWebSocketProvider = exports.AlchemyProvider = exports.FallbackProvider = exports.UrlJsonRpcProvider = exports.Resolver = exports.BaseProvider = exports.Provider = void 0;
 
 	Object.defineProperty(exports, "Provider", { enumerable: true, get: function () { return lib$b.Provider; } });
 
@@ -30532,6 +30684,9 @@
 
 	Object.defineProperty(exports, "InfuraProvider", { enumerable: true, get: function () { return infuraProvider.InfuraProvider; } });
 	Object.defineProperty(exports, "InfuraWebSocketProvider", { enumerable: true, get: function () { return infuraProvider.InfuraWebSocketProvider; } });
+
+	Object.defineProperty(exports, "MassbitProvider", { enumerable: true, get: function () { return massbitProvider.MassbitProvider; } });
+	Object.defineProperty(exports, "MassbitWebSocketProvider", { enumerable: true, get: function () { return massbitProvider.MassbitWebSocketProvider; } });
 
 	Object.defineProperty(exports, "JsonRpcProvider", { enumerable: true, get: function () { return jsonRpcProvider.JsonRpcProvider; } });
 	Object.defineProperty(exports, "JsonRpcSigner", { enumerable: true, get: function () { return jsonRpcProvider.JsonRpcSigner; } });
@@ -30594,6 +30749,7 @@
 	        CloudflareProvider: cloudflareProvider.CloudflareProvider,
 	        EtherscanProvider: etherscanProvider.EtherscanProvider,
 	        InfuraProvider: infuraProvider.InfuraProvider,
+	        MassbitProvider: massbitProvider.MassbitProvider,
 	        JsonRpcProvider: jsonRpcProvider.JsonRpcProvider,
 	        NodesmithProvider: nodesmithProvider.NodesmithProvider,
 	        PocketProvider: pocketProvider.PocketProvider,

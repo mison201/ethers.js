@@ -26,6 +26,8 @@ import { EtherscanProvider } from "./etherscan-provider";
 import { FallbackProvider, FallbackProviderConfig } from "./fallback-provider";
 import { IpcProvider } from "./ipc-provider";
 import { InfuraProvider, InfuraWebSocketProvider } from "./infura-provider";
+import { MassbitProvider, MassbitWebSocketProvider } from "./massbit-provider";
+
 import { JsonRpcProvider, JsonRpcSigner } from "./json-rpc-provider";
 import { JsonRpcBatchProvider } from "./json-rpc-batch-provider";
 import { NodesmithProvider } from "./nodesmith-provider";
@@ -81,6 +83,7 @@ function getDefaultProvider(network?: Networkish, options?: any): BaseProvider {
         CloudflareProvider,
         EtherscanProvider,
         InfuraProvider,
+        MassbitProvider,
         JsonRpcProvider,
         NodesmithProvider,
         PocketProvider,
@@ -114,7 +117,9 @@ export {
     CloudflareProvider,
     EtherscanProvider,
     InfuraProvider,
+    MassbitProvider,
     InfuraWebSocketProvider,
+    MassbitWebSocketProvider,
     JsonRpcProvider,
     JsonRpcBatchProvider,
     NodesmithProvider,
