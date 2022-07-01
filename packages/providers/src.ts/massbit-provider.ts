@@ -28,8 +28,8 @@ export class MassbitWebSocketProvider extends WebSocketProvider implements Commu
         const provider = new MassbitProvider(network, apiKey);
         const connection = provider.connection;
         if (connection.password) {
-            logger.throwError("INFURA WebSocket project secrets unsupported", Logger.errors.UNSUPPORTED_OPERATION, {
-                operation: "InfuraProvider.getWebSocketProvider()"
+            logger.throwError("Massbit WebSocket project secrets unsupported", Logger.errors.UNSUPPORTED_OPERATION, {
+                operation: "MassbitProvider.getWebSocketProvider()"
             });
         }
 

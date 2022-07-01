@@ -30056,7 +30056,10 @@
 
 	var logger = new lib.Logger(_version$I.version);
 
+	// https://e6944c6e-e83f-4b0f-9353-e18e6d630bed.eth-mainnet.massbitroute.net/rph2lZHHRHEYQfhrbQIMbg
+	// wss://e6944c6e-e83f-4b0f-9353-e18e6d630bed-ws.eth-mainnet.massbitroute.net/rph2lZHHRHEYQfhrbQIMbg
 	var defaultProjectId = "e6944c6e-e83f-4b0f-9353-e18e6d630bed";
+	var defaultApiKey = "rph2lZHHRHEYQfhrbQIMbg";
 	var MassbitWebSocketProvider = /** @class */ (function (_super) {
 	    __extends(MassbitWebSocketProvider, _super);
 	    function MassbitWebSocketProvider(network, apiKey) {
@@ -30064,11 +30067,13 @@
 	        var provider = new MassbitProvider(network, apiKey);
 	        var connection = provider.connection;
 	        if (connection.password) {
-	            logger.throwError("INFURA WebSocket project secrets unsupported", lib.Logger.errors.UNSUPPORTED_OPERATION, {
-	                operation: "InfuraProvider.getWebSocketProvider()"
+	            logger.throwError("Massbit WebSocket project secrets unsupported", lib.Logger.errors.UNSUPPORTED_OPERATION, {
+	                operation: "MassbitProvider.getWebSocketProvider()"
 	            });
 	        }
-	        var url = connection.url.replace(/^http/i, "ws").replace("/v3/", "/ws/v3/");
+	        var url = connection.url
+	            .replace(/^http/i, "wss")
+	            .replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gm, "$1-ws");
 	        _this = _super.call(this, url, network) || this;
 	        (0, lib$3.defineReadOnly)(_this, "apiKey", provider.projectId);
 	        (0, lib$3.defineReadOnly)(_this, "projectId", provider.projectId);
@@ -30091,7 +30096,7 @@
 	    };
 	    MassbitProvider.getApiKey = function (apiKey) {
 	        var apiKeyObj = {
-	            apiKey: defaultProjectId,
+	            apiKey: defaultApiKey,
 	            projectId: defaultProjectId,
 	            projectSecret: null
 	        };
@@ -30117,37 +30122,13 @@
 	        var host = null;
 	        switch (network ? network.name : "unknown") {
 	            case "homestead":
-	                host = "mainnet.infura.io";
-	                break;
-	            case "ropsten":
-	                host = "ropsten.infura.io";
+	                host = "eth-mainnet.massbitroute.net";
 	                break;
 	            case "rinkeby":
-	                host = "rinkeby.infura.io";
+	                host = "eth-rinkeby.massbitroute.net";
 	                break;
-	            case "kovan":
-	                host = "kovan.infura.io";
-	                break;
-	            case "goerli":
-	                host = "goerli.infura.io";
-	                break;
-	            case "matic":
-	                host = "polygon-mainnet.infura.io";
-	                break;
-	            case "maticmum":
-	                host = "polygon-mumbai.infura.io";
-	                break;
-	            case "optimism":
-	                host = "optimism-mainnet.infura.io";
-	                break;
-	            case "optimism-kovan":
-	                host = "optimism-kovan.infura.io";
-	                break;
-	            case "arbitrum":
-	                host = "arbitrum-mainnet.infura.io";
-	                break;
-	            case "arbitrum-rinkeby":
-	                host = "arbitrum-rinkeby.infura.io";
+	            case "polygon":
+	                host = "polygon-mainnet.massbitroute.net";
 	                break;
 	            default:
 	                logger.throwError("unsupported network", lib.Logger.errors.INVALID_ARGUMENT, {
@@ -30157,7 +30138,7 @@
 	        }
 	        var connection = {
 	            allowGzip: true,
-	            url: ("https:/" + "/" + host + "/v3/" + apiKey.projectId),
+	            url: ("https://" + apiKey.projectId + "." + host + "/" + apiKey.projectSecret),
 	            throttleCallback: function (attempt, url) {
 	                if (apiKey.projectId === defaultProjectId) {
 	                    (0, formatter.showThrottleMessage)();
